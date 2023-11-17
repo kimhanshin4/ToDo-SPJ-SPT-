@@ -29,4 +29,10 @@ public class Todo extends TimeEntity {
         this.password = requestDto.getPassword();
         this.content = requestDto.getContent();
     }
+
+    public void update(TodoUpdateRequestDto requestDto) {
+        this.title = requestDto.getTitle();
+        this.username = requestDto.getUsername();
+        this.content = requestDto.getContent();
+    }
 }

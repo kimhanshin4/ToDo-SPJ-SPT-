@@ -7,6 +7,7 @@ import java.util.*;
 import java.util.stream.*;
 import lombok.*;
 import org.springframework.stereotype.*;
+import org.springframework.transaction.annotation.*;
 
 @Service
 @RequiredArgsConstructor
@@ -22,8 +23,7 @@ public class TodoService {
     }
 
     public TodoResponseDto getTodo(Long postId) {
-        Todo todo = todoJpaRepository.findById(postId)
-            .orElseThrow(() -> new NullPointerException("해당 할 일을 찾을 수가 없어요!"));
+        Todo todo = getTodoEntity(postId);
         return new TodoResponseDto(todo);
     }
 
@@ -31,5 +31,22 @@ public class TodoService {
         return todoJpaRepository.findAllByOrderByCreatedAtDesc().stream()
             .map(TodoResponseDto::new)
             .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public TodoResponseDto updateTodo(Long postId, TodoUpdateRequestDto requestDto) {
+        Todo todo = getTodoEntity(postId);
+        if (!todo.getPassword().equals(requestDto.getPassword())) {
+            throw new IllegalArgumentException("비밀번호가 다르잖아요!");
+        }
+        todo.update(requestDto);
+        todoJpaRepository.save(todo);
+
+        return new TodoResponseDto(todo);
+    }
+
+    private Todo getTodoEntity(Long postId) {
+        return todoJpaRepository.findById(postId)
+            .orElseThrow(() -> new NullPointerException("해당 할 일을 찾을 수가 없어요!"));
     }
 }

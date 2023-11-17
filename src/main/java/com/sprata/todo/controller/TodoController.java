@@ -31,4 +31,10 @@ public class TodoController {
     public List<TodoResponseDto> getTodos() {
         return todoService.getTodos();
     }
+
+    @PatchMapping("/{postId}")
+    public TodoResponseDto updateTodo(@PathVariable Long postId,
+        @RequestBody TodoUpdateRequestDto requestDto) {
+        return todoService.updateTodo(postId, requestDto);
+    }
 }
