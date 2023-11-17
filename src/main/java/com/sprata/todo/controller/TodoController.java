@@ -26,4 +26,9 @@ public class TodoController {
     public TodoResponseDto getTodo(@PathVariable Long postId) {
         return todoService.getTodo(postId);
     }
+
+    @GetMapping
+    public List<TodoResponseDto> getTodos() {
+        return todoService.getTodos();
+    }
 }

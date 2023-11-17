@@ -6,5 +6,6 @@ import org.springframework.data.jpa.repository.*;
 
 public interface TodoJpaRepository extends JpaRepository<Todo, Long> {
 
+    List<Todo> findAllByOrderByCreatedAtDesc();
 
 }
