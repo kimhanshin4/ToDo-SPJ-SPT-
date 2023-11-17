@@ -19,4 +19,10 @@ public class TodoService {
         Todo saveTodo = todoJpaRepository.save(todo);
         return new TodoResponseDto(saveTodo);
     }
+
+    public TodoResponseDto getTodo(Long postId) {
+        Todo todo = todoJpaRepository.findById(postId)
+            .orElseThrow(() -> new NullPointerException("해당 할 일을 찾을 수가 없어요!"));
+        return new TodoResponseDto(todo);
+    }
 }
