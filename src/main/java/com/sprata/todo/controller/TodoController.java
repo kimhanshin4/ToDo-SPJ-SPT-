@@ -59,4 +59,16 @@ public class TodoController {
             )
         );
     }
+
+    @ExceptionHandler(AuthorizeException.class)
+    public ResponseEntity<ErrorResponseDto> AuthorizationExceptionHandler(
+        AuthorizeException ex) {
+        System.err.println(ex.getMessage());
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(
+            new ErrorResponseDto(
+                HttpStatus.NOT_FOUND.value(),
+                ex.getMessage()
+            )
+        );
+    }
 }

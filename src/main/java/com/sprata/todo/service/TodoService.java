@@ -52,7 +52,7 @@ public class TodoService {
 
     private static void verifyPassword(String password, Todo todo) {
         if (!todo.passwordMatches(password)) {
-            throw new IllegalArgumentException("비밀번호가 다르잖아요!");
+            throw new AuthorizeException("비밀번호가 다르잖아요!");
         }
     }
 
