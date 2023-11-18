@@ -15,26 +15,35 @@ public class TodoController {
     private final TodoService todoService;
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public TodoResponseDto addTodo(
+    public ResponseEntity<TodoResponseDto> addTodo(
         @RequestBody TodoAddRequestDto requestDto) {
         TodoResponseDto responseDto = todoService.addTodo(requestDto);
-        return responseDto;
+        return ResponseEntity.status(HttpStatus.CREATED).body(responseDto);
     }
 
     @GetMapping("/{postId}")
-    public TodoResponseDto getTodo(@PathVariable Long postId) {
-        return todoService.getTodo(postId);
+    public ResponseEntity<TodoResponseDto> getTodo(@PathVariable Long postId) {
+        TodoResponseDto responseDto = todoService.getTodo(postId);
+        return ResponseEntity.ok(responseDto);
     }
 
     @GetMapping
-    public List<TodoResponseDto> getTodos() {
-        return todoService.getTodos();
+    public ResponseEntity<List<TodoResponseDto>> getTodos() {
+        List<TodoResponseDto> responseDtos = todoService.getTodos();
+        return ResponseEntity.ok(responseDtos);
     }
 
     @PatchMapping("/{postId}")
-    public TodoResponseDto updateTodo(@PathVariable Long postId,
+    public ResponseEntity<TodoResponseDto> updateTodo(@PathVariable Long postId,
         @RequestBody TodoUpdateRequestDto requestDto) {
-        return todoService.updateTodo(postId, requestDto);
+        TodoResponseDto responseDto = todoService.updateTodo(postId, requestDto);
+        return ResponseEntity.ok(responseDto);
+    }
+
+    @DeleteMapping("/{postId}")
+    public ResponseEntity<TodoResponseDto> deleteTodo(@PathVariable Long postId,
+        @RequestHeader("password") String password) {
+        todoService.deleteTodo(postId, password);
+        return ResponseEntity.noContent().build();
     }
 }

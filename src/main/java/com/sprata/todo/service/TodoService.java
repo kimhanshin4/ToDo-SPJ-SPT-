@@ -36,13 +36,23 @@ public class TodoService {
     @Transactional
     public TodoResponseDto updateTodo(Long postId, TodoUpdateRequestDto requestDto) {
         Todo todo = getTodoEntity(postId);
-        if (!todo.getPassword().equals(requestDto.getPassword())) {
-            throw new IllegalArgumentException("비밀번호가 다르잖아요!");
-        }
+        verifyPassword(requestDto.getPassword(), todo);
         todo.update(requestDto);
         todoJpaRepository.save(todo);
 
         return new TodoResponseDto(todo);
+    }
+
+    public void deleteTodo(Long postId, String password) {
+        Todo todo = getTodoEntity(postId);
+        verifyPassword(password, todo);
+        todoJpaRepository.delete(todo);
+    }
+
+    private static void verifyPassword(String password, Todo todo) {
+        if (!todo.passwordMatches(password)) {
+            throw new IllegalArgumentException("비밀번호가 다르잖아요!");
+        }
     }
 
     private Todo getTodoEntity(Long postId) {

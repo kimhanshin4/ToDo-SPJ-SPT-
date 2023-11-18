@@ -35,4 +35,8 @@ public class Todo extends TimeEntity {
         this.username = requestDto.getUsername();
         this.content = requestDto.getContent();
     }
+
+    public boolean passwordMatches(String inputPassword) {
+        return this.password.equals(inputPassword);
+    }
 }
