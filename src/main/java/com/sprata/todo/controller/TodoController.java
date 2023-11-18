@@ -1,6 +1,8 @@
 package com.sprata.todo.controller;
 
+import com.sprata.todo.controller.exception.*;
 import com.sprata.todo.dto.*;
+import com.sprata.todo.dto.exception.*;
 import com.sprata.todo.service.*;
 import java.util.*;
 import lombok.*;
@@ -45,5 +47,16 @@ public class TodoController {
         @RequestHeader("password") String password) {
         todoService.deleteTodo(postId, password);
         return ResponseEntity.noContent().build();
+    }
+
+    @ExceptionHandler(PostNotFoundException.class)
+    public ResponseEntity<ErrorResponseDto> postNotFoundExceptionHandler(PostNotFoundException ex) {
+        System.err.println(ex.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+            new ErrorResponseDto(
+                HttpStatus.NOT_FOUND.value(),
+                ex.getMessage()
+            )
+        );
     }
 }

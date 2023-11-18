@@ -1,5 +1,6 @@
 package com.sprata.todo.service;
 
+import com.sprata.todo.controller.exception.*;
 import com.sprata.todo.dto.*;
 import com.sprata.todo.entity.*;
 import com.sprata.todo.repository.*;
@@ -57,6 +58,6 @@ public class TodoService {
 
     private Todo getTodoEntity(Long postId) {
         return todoJpaRepository.findById(postId)
-            .orElseThrow(() -> new NullPointerException("해당 할 일을 찾을 수가 없어요!"));
+            .orElseThrow(() -> new PostNotFoundException("해당 할 일을 찾을 수가 없어요!"));
     }
 }
