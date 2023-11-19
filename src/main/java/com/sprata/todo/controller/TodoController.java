@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/posts")
+@RequestMapping("/api/v1/")
 public class TodoController {
 
     private final TodoService todoService;
@@ -23,7 +23,7 @@ public class TodoController {
         return ResponseEntity.status(HttpStatus.CREATED).body(responseDto);
     }
 
-    @GetMapping("/{postId}")
+    @GetMapping("/posts/{postId}")
     public ResponseEntity<TodoResponseDto> getTodo(@PathVariable Long postId) {
         TodoResponseDto responseDto = todoService.getTodo(postId);
         return ResponseEntity.ok(responseDto);
@@ -35,14 +35,14 @@ public class TodoController {
         return ResponseEntity.ok(responseDtos);
     }
 
-    @PatchMapping("/{postId}")
+    @PatchMapping("/posts/{postId}")
     public ResponseEntity<TodoResponseDto> updateTodo(@PathVariable Long postId,
         @RequestBody TodoUpdateRequestDto requestDto) {
         TodoResponseDto responseDto = todoService.updateTodo(postId, requestDto);
         return ResponseEntity.ok(responseDto);
     }
 
-    @DeleteMapping("/{postId}")
+    @DeleteMapping("/posts/{postId}")
     public ResponseEntity<TodoResponseDto> deleteTodo(@PathVariable Long postId,
         @RequestHeader("password") String password) {
         todoService.deleteTodo(postId, password);
