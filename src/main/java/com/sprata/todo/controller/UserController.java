@@ -2,12 +2,14 @@ package com.sprata.todo.controller;
 
 import com.sprata.todo.dto.*;
 import com.sprata.todo.entity.*;
+import com.sprata.todo.response.*;
 import com.sprata.todo.security.*;
 import com.sprata.todo.service.*;
 import jakarta.validation.*;
 import java.util.*;
 import lombok.*;
 import lombok.extern.slf4j.*;
+import org.springframework.http.*;
 import org.springframework.security.core.annotation.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.*;
@@ -24,40 +26,12 @@ public class UserController {
     private final UserService userService;
     private final CommentService commentService;
 
-    @GetMapping("/user/login-page")
-    public String loginPage() {
-        return "login";
-    }
-
-    @GetMapping("/user/signup")
-    public String signupPage() {
-        return "signup";
-    }
 
     @PostMapping("/user/signup")
-    public String signup(@Valid SignupRequestDto requestDto, BindingResult bindingResult) {
-        // Validation 예외처리
-        List<FieldError> fieldErrors = bindingResult.getFieldErrors();
-        if (fieldErrors.size() > 0) {
-            for (FieldError fieldError : bindingResult.getFieldErrors()) {
-                log.error(fieldError.getField() + " 필드 : " + fieldError.getDefaultMessage());
-            }
-            return "redirect:/api/user/signup";
-        }
-
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseEntity<String> signup(@Valid @RequestBody SignupRequestDto requestDto) {
         userService.signup(requestDto);
-
-        return "redirect:/api/user/login-page";
-    }
-
-    @GetMapping("/user-info")
-    @ResponseBody
-    public UserInfoDto getUserInfo(@AuthenticationPrincipal UserDetailsImpl userDetails) {
-        String username = userDetails.getUser().getUsername();
-        UserRoleEnum role = userDetails.getUser().getRole();
-        boolean isAdmin = (role == UserRoleEnum.ADMIN);
-
-        return new UserInfoDto(username, isAdmin);
+        return ResponseEntity.ok(CommonCode.OK.getMessage());
     }
 
     @GetMapping("/user-comment")
