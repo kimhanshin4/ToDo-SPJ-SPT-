@@ -23,7 +23,7 @@ public class Todo extends TimeEntity {
     @Column(name = "contents", nullable = false, length = 500)
     private String content;
 
-    public Todo(TodoAddRequestDto requestDto) {
+    public Todo(TodoRequestDto requestDto) {
         this.title = requestDto.getTitle();
         this.username = requestDto.getUsername();
         this.password = requestDto.getPassword();

@@ -16,9 +16,9 @@ public class TodoController {
 
     private final TodoService todoService;
 
-    @PostMapping
+    @PostMapping("/posts")
     public ResponseEntity<TodoResponseDto> addTodo(
-        @RequestBody TodoAddRequestDto requestDto) {
+        @RequestBody TodoRequestDto requestDto) {
         TodoResponseDto responseDto = todoService.addTodo(requestDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(responseDto);
     }
@@ -29,7 +29,7 @@ public class TodoController {
         return ResponseEntity.ok(responseDto);
     }
 
-    @GetMapping
+    @GetMapping("/posts")
     public ResponseEntity<List<TodoResponseDto>> getTodos() {
         List<TodoResponseDto> responseDtos = todoService.getTodos();
         return ResponseEntity.ok(responseDtos);
@@ -48,6 +48,12 @@ public class TodoController {
         todoService.deleteTodo(postId, password);
         return ResponseEntity.noContent().build();
     }
+
+//    @PutMapping("/posts/{postId}")
+//    public ResponseEntity<TodoResponseDto> updateTodoStatus(@PathVariable Long postId,
+//        @RequestBody TodoUpdateRequestDto requestDto) {
+//        TodoResponseDto responseDto = todoService.updateTodoStatus(postId, requestDto);
+//    }
 
     @ExceptionHandler(PostNotFoundException.class)
     public ResponseEntity<ErrorResponseDto> postNotFoundExceptionHandler(PostNotFoundException ex) {

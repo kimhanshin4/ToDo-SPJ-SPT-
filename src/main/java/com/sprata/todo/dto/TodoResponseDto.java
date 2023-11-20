@@ -2,6 +2,7 @@ package com.sprata.todo.dto;
 
 import com.sprata.todo.entity.*;
 import java.time.*;
+import lombok.*;
 
 public record TodoResponseDto(
     Long id,

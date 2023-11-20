@@ -16,7 +16,7 @@ public class TodoService {
 
     private final TodoJpaRepository todoJpaRepository;
 
-    public TodoResponseDto addTodo(TodoAddRequestDto requestDto) {
+    public TodoResponseDto addTodo(TodoRequestDto requestDto) {
         // Dto -> Entity
         Todo todo = new Todo(requestDto);
         Todo saveTodo = todoJpaRepository.save(todo);
